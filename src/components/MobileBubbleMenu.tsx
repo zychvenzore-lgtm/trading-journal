@@ -116,6 +116,21 @@ export default function MobileBubbleMenu() {
     setIsOpen(false);
   };
 
+  const radius = 100;
+  const buttons = [
+    { id: 'trade', icon: <PlusCircleIcon className="w-5 h-5" />, angle: -65, color: 'bg-accent text-base-900', event: 'open-trade-form' },
+    { id: 'burn', icon: <FlameIcon className="w-5 h-5" />, angle: -22, color: 'bg-red-500 text-white', event: 'open-burn-modal' },
+    { id: 'notes', icon: <ClipboardIcon className="w-5 h-5" />, angle: 22, color: 'bg-blue-500 text-white', event: 'open-notes-panel' },
+    { id: 'calc', icon: <CalculatorIcon className="w-5 h-5" />, angle: 65, color: 'bg-purple-500 text-white', event: 'open-calculator-modal' },
+  ];
+
+  const getPosition = (angle: number) => {
+    const rad = (angle * Math.PI) / 180;
+    const x = -radius * Math.cos(rad);
+    const y = radius * Math.sin(rad);
+    return { x, y };
+  };
+
   return (
     <div 
       className="md:hidden fixed right-4 z-50 pointer-events-none"
@@ -128,43 +143,48 @@ export default function MobileBubbleMenu() {
         ref={bubbleRef} 
         className="relative pointer-events-auto"
       >
-        {/* Radial Menu Items (Semi-circle) */}
-        <div className={`absolute right-full top-1/2 -translate-y-1/2 mr-4 transition-all duration-300 origin-right ${
-          isOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-50 invisible'
-        }`}>
-          <div className="relative w-40 h-40">
-            {/* 1. New Trade (Top Left) */}
-            <button 
-              onClick={() => triggerEvent('open-trade-form')}
-              className="absolute top-0 right-10 w-12 h-12 bg-base-800 border border-base-600 rounded-full flex items-center justify-center text-accent shadow-lg active:scale-95 transition-transform"
-            >
-              <PlusCircleIcon className="w-5 h-5" />
-            </button>
-            
-            {/* 2. Quick Note (Middle Left) */}
-            <button 
-              onClick={() => triggerEvent('open-notes-panel')}
-              className="absolute top-1/2 -translate-y-1/2 right-[4.5rem] w-12 h-12 bg-base-800 border border-base-600 rounded-full flex items-center justify-center text-blue-400 shadow-lg active:scale-95 transition-transform"
-            >
-              <ClipboardIcon className="w-5 h-5" />
-            </button>
-            
-            {/* 3. Calculator (Bottom Left) */}
-            <button 
-              onClick={() => triggerEvent('open-calculator-modal')}
-              className="absolute bottom-0 right-10 w-12 h-12 bg-base-800 border border-base-600 rounded-full flex items-center justify-center text-purple-400 shadow-lg active:scale-95 transition-transform"
-            >
-              <CalculatorIcon className="w-5 h-5" />
-            </button>
-            
-            {/* 4. Burn It (Center Left / Highest) */}
-            <button 
-              onClick={() => triggerEvent('open-burn-modal')}
-              className="absolute -top-6 right-0 w-12 h-12 bg-base-800 border border-red-500/50 rounded-full flex items-center justify-center text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)] active:scale-95 transition-transform"
-            >
-              <FlameIcon className="w-5 h-5" />
-            </button>
+        {/* Radial Menu Container, exactly centered on main bubble */}
+        <div className="absolute left-1/2 top-1/2 w-0 h-0 pointer-events-none">
+          
+          {/* SVG Thread (Benang Lingkaran) */}
+          <div 
+            className={`absolute left-1/2 top-1/2 w-[200px] h-[200px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${
+              isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+            }`}
+          >
+            <svg width="200" height="200" className="absolute top-0 left-0">
+              <path 
+                d="M 57.8 9.4 A 100 100 0 0 0 57.8 190.6" 
+                fill="none" 
+                stroke="currentColor"
+                className="text-accent/40"
+                strokeWidth="2" 
+                strokeDasharray="4 4"
+              />
+            </svg>
           </div>
+
+          {/* Radial Buttons */}
+          {buttons.map((btn, index) => {
+            const { x, y } = getPosition(btn.angle);
+            return (
+              <button
+                key={btn.id}
+                onClick={() => triggerEvent(btn.event)}
+                className={`absolute w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)] active:scale-95 transition-all duration-300 pointer-events-auto ${btn.color} ${
+                  isOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-50 invisible'
+                }`}
+                style={{
+                  left: `${x}px`,
+                  top: `${y}px`,
+                  transform: 'translate(-50%, -50%)',
+                  transitionDelay: isOpen ? `${index * 40}ms` : '0ms'
+                }}
+              >
+                {btn.icon}
+              </button>
+            );
+          })}
         </div>
 
         {/* Main Draggable Bubble */}
@@ -172,7 +192,7 @@ export default function MobileBubbleMenu() {
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl cursor-grab active:cursor-grabbing transition-colors duration-200 select-none touch-none ${
+          className={`relative z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing transition-colors duration-200 select-none touch-none ${
             isOpen ? 'bg-accent text-base-900' : 'bg-base-800 border border-base-600 text-accent'
           }`}
         >
