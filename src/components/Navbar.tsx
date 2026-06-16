@@ -115,8 +115,10 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
             </a>
           </div>
 
-          {/* Account switcher */}
-          <AccountSwitcher />
+          {/* Account switcher (hidden on mobile) */}
+          <div className="hidden sm:block">
+            <AccountSwitcher />
+          </div>
 
           {/* Divider */}
           <div className="hidden sm:block h-6 w-px bg-base-600" />

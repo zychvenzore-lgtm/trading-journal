@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import AccountSwitcher from '@/components/AccountSwitcher';
 
 /* -------------------------------------------------------------------------- */
 /*                                   Icons                                    */
@@ -262,6 +263,11 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose, collapsed 
               <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
             </svg>
           </button>
+        </div>
+
+        {/* Mobile Account Switcher */}
+        <div className="md:hidden px-4 py-3 border-b border-base-700">
+          <AccountSwitcher variant="sidebar" />
         </div>
 
         {/* Nav links */}

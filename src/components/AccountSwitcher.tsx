@@ -79,7 +79,11 @@ const currencyOptions = [
  * @example
  * <AccountSwitcher />
  */
-const AccountSwitcher: React.FC = () => {
+interface AccountSwitcherProps {
+  variant?: 'navbar' | 'sidebar';
+}
+
+const AccountSwitcher: React.FC<AccountSwitcherProps> = ({ variant = 'navbar' }) => {
   const { accounts, activeAccount, switchAccount, createAccount, deleteAccount, loading } =
     useAccounts();
   const { t } = useLanguage();
@@ -192,19 +196,22 @@ const AccountSwitcher: React.FC = () => {
           type="button"
           onClick={() => setIsDropdownOpen((v) => !v)}
           className={[
-            'flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm',
+            'flex items-center gap-2 px-3 py-2 rounded-lg text-sm',
             'bg-base-700 border border-base-600',
             'text-text-secondary hover:text-text-primary',
             'transition-all duration-200',
             'focus:outline-none focus:ring-2 focus:ring-accent/50',
+            variant === 'sidebar' ? 'w-full justify-between' : '',
           ].join(' ')}
           aria-haspopup="listbox"
           aria-expanded={isDropdownOpen}
         >
-          <WalletIcon />
-          <span className="max-w-[120px] truncate">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <WalletIcon />
+            <span className={variant === 'sidebar' ? 'truncate text-left' : 'max-w-[120px] truncate'}>
             {loading ? 'Loading...' : activeAccount?.name ?? 'No account'}
-          </span>
+            </span>
+          </div>
           <ChevronDown
             className={[
               'h-4 w-4 transition-transform duration-200',
@@ -217,7 +224,8 @@ const AccountSwitcher: React.FC = () => {
         {isDropdownOpen && (
           <div
             className={[
-              'absolute right-0 mt-2 w-64 rounded-xl overflow-hidden',
+              'absolute mt-2 rounded-xl overflow-hidden',
+              variant === 'sidebar' ? 'left-0 w-full' : 'right-0 w-64',
               'bg-base-800 border border-base-600 shadow-xl',
               'animate-[modalFadeIn_150ms_ease-out]',
               'z-50',
