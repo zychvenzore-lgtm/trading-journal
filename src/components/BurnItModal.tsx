@@ -10,6 +10,7 @@ interface BurnItModalProps {
 export default function BurnItModal({ onClose }: BurnItModalProps) {
   const [content, setContent] = useState('');
   const [isBurning, setIsBurning] = useState(false);
+  const [flames, setFlames] = useState<any[]>([]);
 
   const handleBurn = () => {
     if (!content.trim()) return;
@@ -18,131 +19,105 @@ export default function BurnItModal({ onClose }: BurnItModalProps) {
       navigator.vibrate([100, 50, 100, 50, 200, 50, 300, 100, 400]);
     }
 
+    // Generate 70 flames that shoot up individually over time
+    const newFlames = Array.from({ length: 70 }).map((_, i) => {
+      const progress = i / 70; // 0 to 1
+      
+      // Delay starts small, gets denser and more chaotic at the end
+      const delay = Math.pow(progress, 1.5) * 2.2; 
+      
+      // Early flames are tiny (0.4), late flames are MASSIVE (5.0) to engulf the screen
+      const scale = 0.4 + Math.pow(progress, 2) * 5.0;
+      
+      // Random horizontal position
+      const left = Math.random() * 100;
+      
+      // Speed (duration) they fly up
+      const duration = 1.0 + Math.random() * 0.8 + (1 - progress) * 0.5;
+
+      return { id: i, delay, scale, left, duration };
+    });
+
+    setFlames(newFlames);
     setIsBurning(true);
 
     setTimeout(() => {
       onClose();
-    }, 2400); // Close exactly as the fire covers the screen
+    }, 3400); // 3.4 seconds total to allow the final ash to cover
   };
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-hidden">
       <style>{`
         @keyframes shake {
-          0% { transform: translate(1px, 1px) rotate(0deg); }
-          10% { transform: translate(-1px, -2px) rotate(-1deg); }
-          20% { transform: translate(-3px, 0px) rotate(1deg); }
-          30% { transform: translate(3px, 2px) rotate(0deg); }
-          40% { transform: translate(1px, -1px) rotate(1deg); }
-          50% { transform: translate(-1px, 2px) rotate(-1deg); }
-          60% { transform: translate(-3px, 1px) rotate(0deg); }
-          70% { transform: translate(3px, 1px) rotate(-1deg); }
-          80% { transform: translate(-1px, -1px) rotate(1deg); }
-          90% { transform: translate(1px, 2px) rotate(0deg); }
-          100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-        
-        @keyframes riseUp {
-          0% { transform: translateY(100%); }
-          100% { transform: translateY(-100%); }
+          0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
+          25% { transform: translate(-2px, -2px) rotate(-1deg); }
+          50% { transform: translate(0px, 2px) rotate(1deg); }
+          75% { transform: translate(2px, -1px) rotate(-1deg); }
         }
 
-        @keyframes flameWiggle {
-          0% { transform: translateX(-50%) rotate(-45deg) scale(1); }
-          50% { transform: translateX(-50%) rotate(-45deg) scale(1.1) skew(5deg, 5deg); }
-          100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+        @keyframes shootUp {
+          0% { bottom: -20%; transform: translateX(-50%) scale(0) rotate(0deg); opacity: 0; }
+          10% { opacity: 1; transform: translateX(-60%) scale(var(--scale)) rotate(-5deg); }
+          30% { transform: translateX(-40%) scale(var(--scale)) rotate(5deg); }
+          50% { transform: translateX(-60%) scale(var(--scale)) rotate(-5deg); }
+          70% { transform: translateX(-40%) scale(var(--scale)) rotate(5deg); }
+          90% { opacity: 1; }
+          100% { bottom: 130%; transform: translateX(-50%) scale(var(--scale)) rotate(0deg); opacity: 0; }
         }
 
-        @keyframes smokeRise {
-          0% { transform: translateY(0) scale(1); opacity: 0.9; }
-          100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
-        }
-
-        .flame-shape {
-          border-radius: 50% 0 50% 50%;
-          animation: flameWiggle 0.6s infinite alternate;
-          transform-origin: center center;
-        }
-
-        .animate-smoke {
-          animation: smokeRise 1.2s infinite ease-out;
+        @keyframes ashFadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
         }
       `}</style>
 
-      {/* The Cartoon Fire Overlay */}
+      {/* The Individual Shooting Flames Overlay */}
       {isBurning && (
-        <div 
-          className="absolute left-0 w-full z-50 pointer-events-none flex flex-col justify-start"
-          style={{
-            height: '250%',
-            animation: 'riseUp 2.5s cubic-bezier(0.5, 0, 0.2, 1) forwards',
-          }}
-        >
-          {/* Flame Wall */}
-          <div className="w-[120%] left-[-10%] relative h-[150px] flex items-end justify-around shrink-0 pb-4">
-            
-            {/* Smoke Bubbles */}
-            {Array.from({ length: 15 }).map((_, i) => (
-              <div
-                key={`smoke-${i}`}
-                className="absolute rounded-full bg-gray-900/90 animate-smoke z-10 blur-[2px]"
-                style={{
-                  width: `${40 + Math.random() * 60}px`,
-                  height: `${40 + Math.random() * 60}px`,
-                  left: `${Math.random() * 100}%`,
-                  bottom: `${Math.random() * 40 + 40}px`,
-                  animationDelay: `${Math.random() * 0.5}s`,
-                }}
-              />
-            ))}
+        <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
+          {flames.map((f) => (
+            <div 
+              key={f.id}
+              className="absolute flex items-center justify-center"
+              style={{
+                left: `${f.left}%`,
+                bottom: '-20%',
+                animation: `shootUp ${f.duration}s ease-in forwards`,
+                animationDelay: `${f.delay}s`,
+                '--scale': f.scale,
+                opacity: 0,
+              } as React.CSSProperties}
+            >
+              <div className="relative w-[40px] h-[60px]">
+                {/* Red Outer Flame */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[60px] bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.8)] rounded-[50%_0_50%_50%] -rotate-45 origin-center" />
+                {/* Orange Middle Flame */}
+                <div className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-[40px] h-[40px] bg-orange-500 rounded-[50%_0_50%_50%] -rotate-45 origin-center" />
+                {/* Yellow Inner Flame */}
+                <div className="absolute bottom-[12px] left-1/2 -translate-x-1/2 w-[20px] h-[20px] bg-yellow-400 rounded-[50%_0_50%_50%] -rotate-45 origin-center" />
+              </div>
+            </div>
+          ))}
 
-            {/* Fire Tears */}
-            {Array.from({ length: 18 }).map((_, i) => {
-              const scale = 0.8 + (Math.random() * 1); // 0.8 to 1.8
-              const isOffset = i % 2 !== 0;
-              const delay = Math.random() * 0.3;
-              
-              return (
-                <div 
-                  key={`flame-${i}`} 
-                  className="relative flex-shrink-0 z-20" 
-                  style={{ 
-                    width: '35px', 
-                    height: '100px', 
-                    transform: `scale(${scale}) translateY(${isOffset ? '25px' : '0px'})`,
-                  }}
-                >
-                  <div 
-                    className="flame-shape absolute bottom-[-10px] left-1/2 w-24 h-24 bg-red-600 border-[3px] border-red-800/30"
-                    style={{ animationDelay: `${delay}s` }}
-                  />
-                  <div 
-                    className="flame-shape absolute bottom-[0px] left-1/2 w-16 h-16 bg-orange-500"
-                    style={{ animationDelay: `${delay + 0.1}s` }}
-                  />
-                  <div 
-                    className="flame-shape absolute bottom-[10px] left-1/2 w-8 h-8 bg-yellow-400"
-                    style={{ animationDelay: `${delay + 0.2}s` }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Solid Ash Block */}
-          <div className="w-full flex-1 bg-[#0A0A0A] relative z-20">
-             <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-red-900/50 to-transparent" />
-          </div>
+          {/* Solid Black Ash that fades in to completely cover everything at the climax */}
+          <div 
+            className="absolute inset-0 bg-[#0A0A0A] z-40 pointer-events-none"
+            style={{
+              animation: 'ashFadeIn 0.8s ease-in forwards',
+              animationDelay: '2.4s',
+              opacity: 0
+            }}
+          />
         </div>
       )}
 
       {/* Main Modal Container */}
       <div 
         className={`w-full max-w-lg transition-transform duration-75 relative z-10 ${
-          isBurning ? 'scale-[1.02]' : 'scale-100'
+          isBurning ? 'scale-[1.01]' : 'scale-100'
         }`}
         style={isBurning ? {
-          animation: 'shake 0.4s linear infinite'
+          animation: 'shake 0.3s linear infinite'
         } : {}}
       >
         <div className="text-center mb-6">
@@ -173,7 +148,7 @@ export default function BurnItModal({ onClose }: BurnItModalProps) {
             variant="outline" 
             onClick={onClose}
             disabled={isBurning}
-            className={isBurning ? 'opacity-0 transition-opacity' : ''}
+            className={`transition-all duration-300 ${isBurning ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100'}`}
           >
             Cancel
           </Button>
@@ -184,7 +159,7 @@ export default function BurnItModal({ onClose }: BurnItModalProps) {
               !content.trim() || isBurning
                 ? 'bg-base-700 text-base-500 cursor-not-allowed'
                 : 'bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]'
-            } ${isBurning ? 'opacity-0' : ''}`}
+            } ${isBurning ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100'}`}
           >
             {isBurning ? 'BURNING...' : 'BURN IT'}
           </button>
