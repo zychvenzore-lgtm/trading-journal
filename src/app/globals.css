@@ -72,6 +72,12 @@
   --theme-text-primary: #FFFFFF;
   --theme-text-secondary: #9CA3AF;
   --theme-text-muted: #6B7280;
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(26, 26, 26, 0.6);
+  --theme-glass-border: rgba(255, 255, 255, 0.05);
+  --theme-glass-strong-bg: rgba(10, 10, 10, 0.85);
+  --theme-glass-strong-border: rgba(0, 243, 255, 0.2);
 }
 
 /* 2. TECHNICAL (Bloomberg Orange) */
@@ -98,6 +104,12 @@
   --theme-text-primary: #E0E0E0;
   --theme-text-secondary: #A0A0A0;
   --theme-text-muted: #666666;
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(20, 20, 20, 0.6);
+  --theme-glass-border: rgba(255, 255, 255, 0.05);
+  --theme-glass-strong-bg: rgba(0, 0, 0, 0.85);
+  --theme-glass-strong-border: rgba(255, 102, 0, 0.25);
 }
 
 /* 3. LIGHT */
@@ -124,6 +136,12 @@
   --theme-text-primary: #111827;
   --theme-text-secondary: #4B5563;
   --theme-text-muted: #6B7280;
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(255, 255, 255, 0.7);
+  --theme-glass-border: rgba(17, 24, 39, 0.08);
+  --theme-glass-strong-bg: rgba(243, 244, 246, 0.85);
+  --theme-glass-strong-border: rgba(0, 86, 179, 0.2);
 }
 
 /* 4. PASTEL */
@@ -150,6 +168,12 @@
   --theme-text-primary: #4A4A4A;
   --theme-text-secondary: #6A6A6A;
   --theme-text-muted: #8A8A8A;
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(255, 255, 255, 0.75);
+  --theme-glass-border: rgba(187, 155, 123, 0.25);
+  --theme-glass-strong-bg: rgba(253, 251, 247, 0.85);
+  --theme-glass-strong-border: rgba(130, 185, 230, 0.35);
 }
 
 /* ---------- Base Element Styles ---------- */
@@ -283,17 +307,17 @@ body {
 
 /* ---------- Glassmorphism Utility ---------- */
 .glass {
-  background: rgba(26, 26, 26, 0.6);
+  background: var(--theme-glass-bg, rgba(26, 26, 26, 0.6));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.05));
 }
 
 .glass-strong {
-  background: rgba(10, 10, 10, 0.85);
+  background: var(--theme-glass-strong-bg, rgba(10, 10, 10, 0.85));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 243, 255, 0.2);
+  border: 1px solid var(--theme-glass-strong-border, rgba(0, 243, 255, 0.2));
 }
 
 /* ---------- 3D Flip Card Utilities ---------- */
