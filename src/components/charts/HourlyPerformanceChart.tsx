@@ -58,7 +58,7 @@ export default function HourlyPerformanceChart({ data, currency = 'USD' }: Hourl
               cursor={{ fill: '#2A2D3A', opacity: 0.4 }}
               contentStyle={{ backgroundColor: '#1A1D24', borderColor: '#374151', borderRadius: '8px', color: '#fff', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)' }}
               itemStyle={{ color: '#E5E7EB' }}
-              formatter={(value: number) => [formatCurrency(value, currency), 'Net PnL']}
+              formatter={(value: any) => [formatCurrency(Number(value), currency), 'Net PnL']}
               labelStyle={{ color: '#9CA3AF', marginBottom: '4px' }}
             />
             <ReferenceLine x={0} stroke="#4B5563" strokeDasharray="3 3" />

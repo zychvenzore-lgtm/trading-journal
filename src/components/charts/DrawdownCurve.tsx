@@ -66,10 +66,11 @@ export default function DrawdownCurve({ data, currency = 'USD' }: DrawdownCurveP
               tickFormatter={(value) => `${value}%`} 
             />
             <Tooltip 
-              formatter={(value: number, name: string) => {
-                if (name === 'Drawdown' || name === 'Penurunan') return [`${value.toFixed(2)}%`, name];
-                return [formatCurrency(value, currency), name];
+              formatter={(value: any, name: any) => {
+                if (name === 'Drawdown' || name === 'Penurunan') return [`${Number(value).toFixed(2)}%`, name];
+                return [formatCurrency(Number(value), currency), name];
               }}
+              labelFormatter={(label: any) => new Date(label as string).toLocaleDateString()}
               contentStyle={{ 
                 backgroundColor: 'var(--color-base-800)', 
                 borderColor: 'var(--color-base-600)',

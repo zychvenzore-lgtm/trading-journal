@@ -2,7 +2,7 @@ import { Trade } from '@/types';
 import { calcAllStats } from '@/lib/analytics';
 import { startOfDay, startOfWeek, startOfMonth, format, differenceInHours, differenceInDays } from 'date-fns';
 
-export type AchievementCategory = 'milestone' | 'streak' | 'win_rate' | 'time' | 'growth';
+export type AchievementCategory = 'milestone' | 'streak' | 'win_rate' | 'time' | 'growth' | 'other';
 
 export interface Achievement {
   id: string;

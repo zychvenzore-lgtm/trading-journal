@@ -32,6 +32,7 @@ const CSVManager: React.FC = () => {
       entry_price: t.entry_price,
       stop_loss: t.stop_loss || '',
       take_profit: t.take_profit || '',
+      position_type: t.position_type || 'QUANTITY',
       position_size: t.position_size,
       leverage: t.leverage,
       entry_time: t.entry_time,
@@ -90,6 +91,7 @@ const CSVManager: React.FC = () => {
               entry_price: parseFloat(row.entry_price) || 0,
               stop_loss: row.stop_loss ? parseFloat(row.stop_loss) : null,
               take_profit: row.take_profit ? parseFloat(row.take_profit) : null,
+              position_type: row.position_type || 'QUANTITY',
               position_size: parseFloat(row.position_size) || 0,
               leverage: parseFloat(row.leverage) || 1,
               entry_time: row.entry_time || new Date().toISOString(),
@@ -100,7 +102,7 @@ const CSVManager: React.FC = () => {
               reason: row.reason || null,
               chart_link: row.chart_link || null,
               realized_pnl: row.realized_pnl ? parseFloat(row.realized_pnl) : null
-            };
+            } as any;
           });
 
           const success = await bulkAddTrades(tradesToInsert);
