@@ -122,6 +122,9 @@ export default function DashboardLayout({
 
       {/* ---- Welcome Setup for New Users ---- */}
       <WelcomeSetup />
+
+      <MobileBubbleMenu />
+      {isBurnModalOpen && <BurnItModal onClose={() => setIsBurnModalOpen(false)} />}
     </div>
   );
 }
