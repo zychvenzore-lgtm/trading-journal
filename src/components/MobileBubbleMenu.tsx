@@ -187,22 +187,21 @@ export default function MobileBubbleMenu() {
           })}
         </div>
 
-        {/* Main Draggable Bubble */}
+        {/* Main Draggable Bubble — Yellow (+) that rotates to (×) */}
         <div 
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          className={`relative z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing transition-colors duration-200 select-none touch-none ${
-            isOpen ? 'bg-accent text-base-900' : 'bg-base-800 border border-base-600 text-accent'
-          }`}
+          className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center bg-yellow-400 text-gray-900 shadow-[0_4px_20px_rgba(250,204,21,0.4)] cursor-grab active:cursor-grabbing select-none touch-none"
         >
-          {isOpen ? (
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <TIcon className="text-2xl" />
-          )}
+          <svg 
+            className="w-7 h-7 transition-transform duration-300 ease-in-out"
+            style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
         </div>
       </div>
     </div>
