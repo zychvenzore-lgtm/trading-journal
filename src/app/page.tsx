@@ -154,37 +154,101 @@ export default function RootPage() {
         </div>
       </div>
 
-      {/* 4. App Demo Section */}
-      <div id="demo" className="relative z-20 bg-base-900/80 backdrop-blur-lg pt-10 pb-20 border-t border-base-600/30">
-        <div className="max-w-6xl mx-auto px-4">
+      {/* 4. App Demo Section (Gallery) */}
+      <div id="demo" className="relative z-20 bg-base-900/80 backdrop-blur-lg pt-16 pb-24 border-t border-base-600/30 overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <FadeIn>
-            <div className="text-center mb-8">
-              <h2 className="text-sm font-bold text-accent uppercase tracking-widest mb-2">Inside TradeVault</h2>
-              <p className="text-2xl text-white font-medium">Your trading performance, visualized beautifully.</p>
+            <div className="text-center mb-16">
+              <h2 className="text-sm font-bold text-accent uppercase tracking-widest mb-3">Inside TradeVault</h2>
+              <p className="text-3xl md:text-5xl text-white font-black tracking-tight leading-tight">
+                Your trading performance,<br className="hidden md:block" />visualized beautifully.
+              </p>
             </div>
           </FadeIn>
 
-          <FadeIn delay={200}>
-            <div className="rounded-xl overflow-hidden border border-base-700 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative bg-base-800">
-              {/* Browser chrome header */}
-              <div className="bg-base-900 px-4 py-3 flex items-center gap-2 border-b border-base-700">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <div className="ml-4 bg-base-800 px-3 py-1 rounded text-xs text-text-muted font-mono flex-1 text-center max-w-sm mx-auto">
-                  app.tradevault.com
+          <div className="space-y-6 md:space-y-10">
+            {/* Top row: Core Stats */}
+            <FadeIn delay={100}>
+              <div className="rounded-2xl overflow-hidden border border-base-700 shadow-[0_0_40px_rgba(0,0,0,0.5)] group hover:border-accent/40 transition-colors bg-base-800">
+                <div className="bg-base-900 px-4 py-2 flex items-center gap-2 border-b border-base-700 opacity-80">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                  <span className="ml-3 text-[10px] text-text-muted font-mono uppercase tracking-widest">Dashboard Overview</span>
                 </div>
-              </div>
-              {/* Screenshot */}
-              <div className="relative aspect-[16/9] bg-base-800">
                 <img 
-                  src="/mockup.png" 
-                  alt="TradeVault Dashboard Mockup" 
-                  className="absolute inset-0 w-full h-full object-cover object-left-top"
+                  src="/ss-stats.png" 
+                  alt="Dashboard Statistics" 
+                  className="w-full object-cover group-hover:scale-[1.01] transition-transform duration-700 ease-out"
                 />
               </div>
+            </FadeIn>
+
+            {/* Middle row: 2 columns (Heatmap & Performance) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+              <FadeIn delay={200}>
+                <div className="h-full rounded-2xl overflow-hidden border border-base-700 shadow-[0_0_30px_rgba(0,0,0,0.3)] group hover:border-accent/40 transition-colors bg-base-800">
+                  <div className="bg-base-900 px-4 py-2 flex items-center gap-2 border-b border-base-700 opacity-80">
+                    <span className="text-[10px] text-text-muted font-mono uppercase tracking-widest">Consistency Heatmap</span>
+                  </div>
+                  <img 
+                    src="/ss-heatmap.png" 
+                    alt="Performance Heatmap" 
+                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  />
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={300}>
+                <div className="h-full rounded-2xl overflow-hidden border border-base-700 shadow-[0_0_30px_rgba(0,0,0,0.3)] group hover:border-accent/40 transition-colors bg-base-800">
+                  <div className="bg-base-900 px-4 py-2 flex items-center gap-2 border-b border-base-700 opacity-80">
+                    <span className="text-[10px] text-text-muted font-mono uppercase tracking-widest">Time-based Analytics</span>
+                  </div>
+                  <img 
+                    src="/ss-performance.png" 
+                    alt="Hourly and Weekday Performance" 
+                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  />
+                </div>
+              </FadeIn>
             </div>
-          </FadeIn>
+
+            {/* Bottom Row: Ledger & Achievements side-by-side or stacked */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10">
+              <div className="lg:col-span-7">
+                <FadeIn delay={400}>
+                  <div className="h-full rounded-2xl overflow-hidden border border-base-700 shadow-[0_0_30px_rgba(0,0,0,0.3)] group hover:border-accent/40 transition-colors bg-base-800">
+                    <div className="bg-base-900 px-4 py-2 flex items-center gap-2 border-b border-base-700 opacity-80">
+                      <span className="text-[10px] text-text-muted font-mono uppercase tracking-widest">Trade Ledger</span>
+                    </div>
+                    <img 
+                      src="/ss-ledger.png" 
+                      alt="Trade Ledger" 
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    />
+                  </div>
+                </FadeIn>
+              </div>
+              <div className="lg:col-span-5">
+                <FadeIn delay={500}>
+                  <div className="h-full rounded-2xl overflow-hidden border border-base-700 shadow-[0_0_30px_rgba(0,0,0,0.3)] group hover:border-accent/40 transition-colors bg-base-800">
+                    <div className="bg-base-900 px-4 py-2 flex items-center gap-2 border-b border-base-700 opacity-80">
+                      <span className="text-[10px] text-text-muted font-mono uppercase tracking-widest">Gamification</span>
+                    </div>
+                    <img 
+                      src="/ss-achievements.png" 
+                      alt="Achievements" 
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    />
+                  </div>
+                </FadeIn>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 
