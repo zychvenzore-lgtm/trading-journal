@@ -7,6 +7,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
+
 import { useTrades } from '@/contexts/TradeContext';
 import { useToast } from '@/components/ui/Toast';
 import Badge from '@/components/ui/Badge';
@@ -44,6 +45,7 @@ export default function LedgerPage() {
   /* ---- Detail modal ---- */
   const [selectedTrade, setSelectedTrade] = useState<Trade | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
   
   /* ---- Quick Close State ---- */
   const [isClosing, setIsClosing] = useState(false);
@@ -191,18 +193,45 @@ export default function LedgerPage() {
   return (
     <div className="flex flex-col h-full animate-fade-in bg-base-900">
       {/* ---- Page Header ---- */}
-      <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border-b border-base-700">
-        <div>
+      <div className="shrink-0 flex items-center justify-between gap-3 p-4 border-b border-base-700">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-text-primary">{t('ledger.title')}</h1>
-          <p className="text-text-secondary mt-1">
+          <p className="text-text-secondary text-sm mt-0.5">
             {processedTrades.length} {processedTrades.length !== 1 ? t('ledger.tradesFound') : t('ledger.tradeFound')}
           </p>
         </div>
-        <CSVManager />
+
+        {/* Right side: icon buttons on mobile, full CSVManager on desktop */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Mobile: small icon buttons for export/import + filter toggle */}
+          <div className="flex items-center gap-1.5 md:hidden">
+            {/* Filter toggle */}
+            <button
+              onClick={() => setShowFilters(f => !f)}
+              className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
+                showFilters
+                  ? 'bg-accent/20 border-accent/50 text-accent'
+                  : 'bg-base-800 border-base-600 text-text-muted'
+              }`}
+              title="Filters"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Desktop: full CSVManager */}
+          <div className="hidden md:block">
+            <CSVManager />
+          </div>
+        </div>
       </div>
 
-      {/* ---- Filters Bar ---- */}
-      <div className="shrink-0 bg-base-800 border-b border-base-700 p-3">
+      {/* ---- Filters Bar (collapsible on mobile) ---- */}
+      <div className={`shrink-0 bg-base-800 border-b border-base-700 overflow-hidden transition-all duration-300 ease-in-out ${
+        showFilters ? 'max-h-[500px] p-3' : 'max-h-0 p-0 md:max-h-[500px] md:p-3'
+      }`}>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* Ticker Search */}
           <input
@@ -270,6 +299,7 @@ export default function LedgerPage() {
               setFilterOutcome('');
               setFilterDateFrom('');
               setFilterDateTo('');
+              setShowFilters(false);
             }}
           >
             {t('ledger.clear')}
