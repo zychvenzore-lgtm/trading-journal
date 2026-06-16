@@ -150,3 +150,15 @@ export interface TradeStats {
   totalFees: number;
   totalEquity: number; // starting_balance + netPnl
 }
+
+/**
+ * Represents a quick note or journal entry not tied to a specific trade
+ */
+export interface Note {
+  id: string;
+  user_id: string;
+  account_id: string | null;
+  content: string;
+  created_at: string;
+  updated_at: string;
+}

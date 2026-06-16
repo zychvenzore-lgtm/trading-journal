@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import TradeForm from '@/components/forms/TradeForm';
+import QuickNoteForm from '@/components/forms/QuickNoteForm';
 import ProfileSettings from '@/components/ProfileSettings';
 
 import type { RightPanelType } from '@/components/RightToolbar';
@@ -91,12 +92,12 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ activePanel, onClose }) => 
           isOpen ? 'w-[400px]' : 'w-0 border-none',
         ].join(' ')}
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-base-700 shrink-0 bg-base-800">
           <h2 className="text-sm font-bold text-text-primary uppercase tracking-wider">
             {activePanel === 'ORDER' && t('rightSidebar.orderPanel')}
             {activePanel === 'SETTINGS' && t('rightSidebar.settings')}
             {activePanel === 'PROFILE' && 'Profile Settings'}
+            {activePanel === 'NOTES' && 'Quick Note'}
           </h2>
           <button
             type="button"
@@ -111,6 +112,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ activePanel, onClose }) => 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto bg-base-900 custom-scrollbar">
           {activePanel === 'ORDER' && <TradeForm editId={editId} onClose={onClose} />}
+          {activePanel === 'NOTES' && <QuickNoteForm onClose={onClose} />}
           {activePanel === 'PROFILE' && <ProfileSettings />}
           
           {activePanel === 'SETTINGS' && (
