@@ -48,8 +48,9 @@ const TIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 export default function MobileBubbleMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [positionY, setPositionY] = useState(typeof window !== 'undefined' ? window.innerHeight / 2 : 400);
+  const [positionY, setPositionY] = useState(400);
   const [isDragging, setIsDragging] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const bubbleRef = useRef<HTMLDivElement>(null);
   
   // Drag handling variables
@@ -74,6 +75,13 @@ export default function MobileBubbleMenu() {
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    setPositionY(window.innerHeight / 2);
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const handlePointerDown = (e: React.PointerEvent) => {
     setIsDragging(true);

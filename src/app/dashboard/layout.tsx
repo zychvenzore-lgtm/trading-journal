@@ -14,6 +14,7 @@ import RightToolbar, { RightPanelType } from '@/components/RightToolbar';
 import BottomBar from '@/components/BottomBar';
 import MobileBubbleMenu from '@/components/MobileBubbleMenu';
 import BurnItModal from '@/components/BurnItModal';
+import CalculatorModal from '@/components/CalculatorModal';
 import WelcomeSetup from '@/components/WelcomeSetup';
 import { useAchievementNotifications } from '@/hooks/useAchievementNotifications';
 import { useAuth } from '@/contexts/AuthContext';
@@ -33,6 +34,7 @@ export default function DashboardLayout({
   /** Right settings sidebar state */
   const [activeRightPanel, setActiveRightPanel] = useState<RightPanelType>('NONE');
   const [isBurnModalOpen, setIsBurnModalOpen] = useState(false);
+  const [isCalculatorModalOpen, setIsCalculatorModalOpen] = useState(false);
 
   // Initialize global achievement notification listener
   useAchievementNotifications();
@@ -43,12 +45,14 @@ export default function DashboardLayout({
     const handleOpenProfilePanel = () => setActiveRightPanel('PROFILE');
     const handleOpenNotesPanel = () => setActiveRightPanel('NOTES');
     const handleOpenBurnModal = () => setIsBurnModalOpen(true);
+    const handleOpenCalculatorModal = () => setIsCalculatorModalOpen(true);
     
     window.addEventListener('open-trade-form', handleOpenOrderPanel);
     window.addEventListener('open-settings-panel', handleOpenSettingsPanel);
     window.addEventListener('open-profile-panel', handleOpenProfilePanel);
     window.addEventListener('open-notes-panel', handleOpenNotesPanel);
     window.addEventListener('open-burn-modal', handleOpenBurnModal);
+    window.addEventListener('open-calculator-modal', handleOpenCalculatorModal);
     
     return () => {
       window.removeEventListener('open-trade-form', handleOpenOrderPanel);
@@ -56,6 +60,7 @@ export default function DashboardLayout({
       window.removeEventListener('open-profile-panel', handleOpenProfilePanel);
       window.removeEventListener('open-notes-panel', handleOpenNotesPanel);
       window.removeEventListener('open-burn-modal', handleOpenBurnModal);
+      window.removeEventListener('open-calculator-modal', handleOpenCalculatorModal);
     };
   }, []);
 
@@ -125,6 +130,7 @@ export default function DashboardLayout({
 
       <MobileBubbleMenu />
       {isBurnModalOpen && <BurnItModal onClose={() => setIsBurnModalOpen(false)} />}
+      {isCalculatorModalOpen && <CalculatorModal onClose={() => setIsCalculatorModalOpen(false)} />}
     </div>
   );
 }
