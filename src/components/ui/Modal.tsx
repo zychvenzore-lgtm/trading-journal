@@ -3,7 +3,7 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-type ModalMaxWidth = 'sm' | 'md' | 'lg' | 'xl';
+type ModalMaxWidth = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'max-w-2xl' | 'max-w-4xl';
 
 interface ModalProps {
   /** Whether the modal is currently visible */
@@ -24,6 +24,12 @@ const maxWidthClasses: Record<ModalMaxWidth, string> = {
   md: 'max-w-md',
   lg: 'max-w-lg',
   xl: 'max-w-xl',
+  '2xl': 'max-w-2xl',
+  '3xl': 'max-w-3xl',
+  '4xl': 'max-w-4xl',
+  '5xl': 'max-w-5xl',
+  'max-w-2xl': 'max-w-2xl',
+  'max-w-4xl': 'max-w-4xl',
 };
 
 /**
