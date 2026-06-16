@@ -55,11 +55,11 @@ export default function RootPage() {
 
       {/* 2. Top Navigation Bar (Fixed to top of screen) */}
       <nav className="fixed top-0 w-full z-50 px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-gradient-to-b from-base-900 to-transparent">
-        <div className="flex items-center gap-2">
-          <svg className="w-6 h-6 sm:w-8 sm:h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <svg className="w-6 h-6 sm:w-8 sm:h-8 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <span className="text-lg sm:text-xl font-bold tracking-wide text-white drop-shadow-md">
+          <span className="text-lg sm:text-xl font-bold tracking-wide text-white drop-shadow-md shrink-0">
             Trade<span className="text-accent">Vault</span>
           </span>
         </div>
@@ -67,13 +67,13 @@ export default function RootPage() {
         <div className="flex items-center gap-3 sm:gap-6">
           <Link 
             href="/login" 
-            className="text-sm font-medium text-text-secondary hover:text-white transition-colors drop-shadow-md"
+            className="text-sm font-medium text-text-secondary hover:text-white transition-colors drop-shadow-md whitespace-nowrap"
           >
             {t('login.signIn')}
           </Link>
           <Link 
             href="/login?mode=signup" 
-            className="px-4 py-2 sm:px-5 sm:py-2.5 bg-accent text-base-900 text-xs sm:text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_25px_rgba(0,243,255,0.6)] hover:bg-accent-light transition-all duration-300"
+            className="px-4 py-2 sm:px-5 sm:py-2.5 bg-accent text-base-900 text-xs sm:text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_25px_rgba(0,243,255,0.6)] hover:bg-accent-light transition-all duration-300 whitespace-nowrap"
           >
             {t('login.createAccount')}
           </Link>
