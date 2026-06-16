@@ -4,15 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import Button from '@/components/ui/Button';
+import ChangePasswordModal from '@/components/ChangePasswordModal';
 
 export default function ProfileSettings() {
   const { user, profile } = useAuth();
   const supabase = createClient();
 
   const [displayName, setDisplayName] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   useEffect(() => {
     if (profile) {
@@ -36,16 +38,6 @@ export default function ProfileSettings() {
           .eq('id', user.id);
 
         if (profileError) throw profileError;
-      }
-
-      // 2. Update Password if provided
-      if (password) {
-        const { error: authError } = await supabase.auth.updateUser({
-          password: password
-        });
-
-        if (authError) throw authError;
-        setPassword(''); // Clear password field on success
       }
 
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
@@ -98,31 +90,45 @@ export default function ProfileSettings() {
 
         <div>
           <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
-            New Password
+            Password & Security
           </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-base-800 border border-base-600 rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent transition-colors"
-            placeholder="Leave blank to keep current"
-          />
-          <p className="text-xs text-text-muted mt-1">
-            Only fill this if you want to change your password.
-          </p>
+          <div className="flex items-center justify-between p-4 bg-base-800 border border-base-600 rounded-lg">
+            <div>
+              <p className="text-sm font-bold text-text-primary">Change Password</p>
+              <p className="text-xs text-text-muted mt-1">Update your password securely.</p>
+            </div>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              Change
+            </Button>
+          </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 border-t border-base-700">
           <Button 
             type="submit" 
             variant="primary" 
             className="w-full"
             disabled={loading}
           >
-            {loading ? 'Saving...' : 'Save Changes'}
+            {loading ? 'Saving Profile...' : 'Save Profile Changes'}
           </Button>
         </div>
       </form>
+
+      {isPasswordModalOpen && (
+        <ChangePasswordModal 
+          onClose={() => setIsPasswordModalOpen(false)}
+          onSuccess={() => {
+            setIsPasswordModalOpen(false);
+            setMessage({ type: 'success', text: 'Password successfully updated!' });
+            setTimeout(() => setMessage(null), 3000);
+          }}
+        />
+      )}
     </div>
   );
 }
