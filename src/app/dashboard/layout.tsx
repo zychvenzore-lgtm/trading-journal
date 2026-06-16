@@ -37,13 +37,16 @@ export default function DashboardLayout({
   useEffect(() => {
     const handleOpenOrderPanel = () => setActiveRightPanel('ORDER');
     const handleOpenSettingsPanel = () => setActiveRightPanel('SETTINGS');
+    const handleOpenProfilePanel = () => setActiveRightPanel('PROFILE');
     
     window.addEventListener('open-trade-form', handleOpenOrderPanel);
     window.addEventListener('open-settings-panel', handleOpenSettingsPanel);
+    window.addEventListener('open-profile-panel', handleOpenProfilePanel);
     
     return () => {
       window.removeEventListener('open-trade-form', handleOpenOrderPanel);
       window.removeEventListener('open-settings-panel', handleOpenSettingsPanel);
+      window.removeEventListener('open-profile-panel', handleOpenProfilePanel);
     };
   }, []);
 

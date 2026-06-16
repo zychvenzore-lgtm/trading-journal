@@ -191,9 +191,13 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose, collapsed 
       >
         {/* Logo area */}
         <div className={`py-5 border-b border-base-700 flex items-center justify-center h-[56px]`}>
-          <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent font-bold">
+          <button 
+            onClick={() => window.dispatchEvent(new Event('open-profile-panel'))}
+            className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent font-bold hover:bg-accent hover:text-base-900 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+            title="Profile Settings"
+          >
             T
-          </div>
+          </button>
         </div>
 
         {/* renderNavLinks hardcoded to isMobile=false, hideText=true */}

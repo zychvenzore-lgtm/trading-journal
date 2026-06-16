@@ -20,7 +20,7 @@ const SettingsIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-export type RightPanelType = 'NONE' | 'ORDER' | 'SETTINGS';
+export type RightPanelType = 'NONE' | 'ORDER' | 'SETTINGS' | 'PROFILE';
 
 interface RightToolbarProps {
   activePanel: RightPanelType;

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import TradeForm from '@/components/forms/TradeForm';
+import ProfileSettings from '@/components/ProfileSettings';
 
 import type { RightPanelType } from '@/components/RightToolbar';
 import Button from '@/components/ui/Button';
@@ -93,7 +94,9 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ activePanel, onClose }) => 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-base-700 shrink-0 bg-base-800">
           <h2 className="text-sm font-bold text-text-primary uppercase tracking-wider">
-            {activePanel === 'ORDER' ? t('rightSidebar.orderPanel') : t('rightSidebar.settings')}
+            {activePanel === 'ORDER' && t('rightSidebar.orderPanel')}
+            {activePanel === 'SETTINGS' && t('rightSidebar.settings')}
+            {activePanel === 'PROFILE' && 'Profile Settings'}
           </h2>
           <button
             type="button"
@@ -108,6 +111,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ activePanel, onClose }) => 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto bg-base-900 custom-scrollbar">
           {activePanel === 'ORDER' && <TradeForm editId={editId} onClose={onClose} />}
+          {activePanel === 'PROFILE' && <ProfileSettings />}
           
           {activePanel === 'SETTINGS' && (
             <div className="p-6 space-y-8">
