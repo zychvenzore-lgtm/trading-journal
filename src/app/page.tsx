@@ -54,17 +54,17 @@ export default function RootPage() {
       <InteractiveCandles />
 
       {/* 2. Top Navigation Bar (Fixed to top of screen) */}
-      <nav className="fixed top-0 w-full z-50 px-8 py-6 flex items-center justify-between bg-gradient-to-b from-base-900 to-transparent">
+      <nav className="fixed top-0 w-full z-50 px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-gradient-to-b from-base-900 to-transparent">
         <div className="flex items-center gap-2">
-          <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-6 h-6 sm:w-8 sm:h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <span className="text-xl font-bold tracking-wide text-white drop-shadow-md">
+          <span className="text-lg sm:text-xl font-bold tracking-wide text-white drop-shadow-md">
             Trade<span className="text-accent">Vault</span>
           </span>
         </div>
         
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <Link 
             href="/login" 
             className="text-sm font-medium text-text-secondary hover:text-white transition-colors drop-shadow-md"
@@ -73,7 +73,7 @@ export default function RootPage() {
           </Link>
           <Link 
             href="/login?mode=signup" 
-            className="px-5 py-2.5 bg-accent text-base-900 text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_25px_rgba(0,243,255,0.6)] hover:bg-accent-light transition-all duration-300"
+            className="px-4 py-2 sm:px-5 sm:py-2.5 bg-accent text-base-900 text-xs sm:text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_25px_rgba(0,243,255,0.6)] hover:bg-accent-light transition-all duration-300"
           >
             {t('login.createAccount')}
           </Link>
@@ -83,8 +83,8 @@ export default function RootPage() {
       {/* 3. Hero Section (Sticky Parallax) */}
       <div className="relative h-[150vh] z-10 pointer-events-none">
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 pointer-events-none">
-          <div className="max-w-3xl text-center space-y-8 pointer-events-auto">
-            <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-white drop-shadow-2xl">
+          <div className="max-w-3xl text-center space-y-6 sm:space-y-8 pointer-events-auto">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tighter text-white drop-shadow-2xl">
               {t('landing.heroTitleMaster')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-[#00a3ff]">{t('landing.heroTitleEdge')}</span>
             </h1>
             
@@ -92,10 +92,10 @@ export default function RootPage() {
               {t('landing.heroSubtitle')}
             </p>
             
-            <div className="pt-8">
+            <div className="pt-6 sm:pt-8">
               <Link 
                 href="/login?mode=signup" 
-                className="inline-flex items-center justify-center px-8 py-4 bg-base-800 border border-base-600 rounded-xl text-white font-medium hover:bg-base-700 hover:border-accent transition-all duration-300 group shadow-2xl"
+                className="inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-base-800 border border-base-600 rounded-xl text-white font-medium hover:bg-base-700 hover:border-accent transition-all duration-300 group shadow-2xl"
               >
                 {t('landing.startJournaling')}
                 <svg 
@@ -125,11 +125,11 @@ export default function RootPage() {
       </div>
 
       {/* 4. Features Section (Slides over background) */}
-      <div id="features" className="relative z-20 bg-base-900/60 backdrop-blur-xl min-h-screen py-32 px-4 border-t border-base-600/30 pointer-events-none">
+      <div id="features" className="relative z-20 bg-base-900/60 backdrop-blur-xl min-h-screen py-20 md:py-32 px-4 border-t border-base-600/30 pointer-events-none">
         <div className="max-w-6xl mx-auto pointer-events-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">{t('landing.featuresTitle')}</h2>
-            <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 tracking-tight">{t('landing.featuresTitle')}</h2>
+            <p className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto">
               {t('landing.featuresSubtitle')}
             </p>
           </div>
