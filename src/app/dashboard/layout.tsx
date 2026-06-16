@@ -14,6 +14,8 @@ import RightToolbar, { RightPanelType } from '@/components/RightToolbar';
 import BottomBar from '@/components/BottomBar';
 import WelcomeSetup from '@/components/WelcomeSetup';
 import { useAchievementNotifications } from '@/hooks/useAchievementNotifications';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardLayout({
   children,
@@ -44,6 +46,27 @@ export default function DashboardLayout({
       window.removeEventListener('open-settings-panel', handleOpenSettingsPanel);
     };
   }, []);
+
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-base-900">
+        <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-base-900 text-text-primary">

@@ -235,6 +235,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
    * session server-side and clears cookies.
    */
   const signOut = useCallback(async () => {
+    if (typeof window !== 'undefined') {
+      if (!window.confirm("Are you sure you want to log out?")) return;
+    }
+
     // Clear local state immediately for responsive UI
     setUser(null);
     setProfile(null);
@@ -245,8 +249,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       console.error('[AuthContext] Sign-out failed:', error.message);
     }
 
-    // Redirect to login page
-    window.location.href = '/login';
+    // Replace history state to redirect to landing page and prevent back-navigation to authenticated pages
+    window.location.replace('/');
   }, [supabase]);
 
   // ─── Render ─────────────────────────────────────────────────
