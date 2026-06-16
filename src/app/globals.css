@@ -1,26 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
+/* ============================================================
+ * TRADING JOURNAL — Global Styles & Design Tokens
+ * Force dark mode. Palette: Black / Cyber Blue / Crimson Red.
+ * ============================================================ */
+
+/* ---------- CSS Custom Properties (forced dark) ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0A0A0A;
+  --foreground: #FFFFFF;
 }
 
+/* ---------- Tailwind v4 Theme Tokens ---------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--theme-base-900);
+  --color-foreground: var(--theme-text-primary);
+
+  --color-base-900: var(--theme-base-900);
+  --color-base-800: var(--theme-base-800);
+  --color-base-700: var(--theme-base-700);
+  --color-base-600: var(--theme-base-600);
+  --color-base-500: var(--theme-base-500);
+  --color-base-400: var(--theme-base-400);
+
+  --color-accent: var(--theme-accent);
+  --color-accent-light: var(--theme-accent-light);
+  --color-accent-dark: var(--theme-accent-dark);
+  --color-accent-fg: var(--theme-accent-fg);
+
+  --color-danger: var(--theme-danger);
+  --color-danger-dark: var(--theme-danger-dark);
+  --color-danger-fg: var(--theme-danger-fg);
+
+  --color-success: var(--theme-success);
+  --color-warning: var(--theme-warning);
+
+  --color-text-primary: var(--theme-text-primary);
+  --color-text-secondary: var(--theme-text-secondary);
+  --color-text-muted: var(--theme-text-muted);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+   THEMES
+   ============================================================ */
+
+/* 1. CYBERPUNK (Default) */
+:root, .theme-cyberpunk {
+  --theme-base-900: #0A0A0A;
+  --theme-base-800: #12151A; /* Slight blue tint for depth */
+  --theme-base-700: #1E232B;
+  --theme-base-600: #2C333F;
+  --theme-base-500: #3B4454;
+  --theme-base-400: #4B5563;
+
+  --theme-accent: #00F3FF;
+  --theme-accent-light: #80FAFF;
+  --theme-accent-dark: #00A6CC;
+  --theme-accent-fg: #000000;
+
+  --theme-danger: #FF003C;
+  --theme-danger-dark: #B3002A;
+  --theme-danger-fg: #FFFFFF;
+
+  --theme-success: #00C853;
+  --theme-warning: #FFB300;
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #9CA3AF;
+  --theme-text-muted: #6B7280;
+}
+
+/* 2. TECHNICAL (Bloomberg Orange) */
+.theme-technical {
+  --theme-base-900: #000000;
+  --theme-base-800: #141414;
+  --theme-base-700: #262626;
+  --theme-base-600: #333333;
+  --theme-base-500: #404040;
+  --theme-base-400: #4D4D4D;
+
+  --theme-accent: #FF6600;
+  --theme-accent-light: #FF8533;
+  --theme-accent-dark: #CC5200;
+  --theme-accent-fg: #FFFFFF;
+
+  --theme-danger: #FF3333;
+  --theme-danger-dark: #D90429;
+  --theme-danger-fg: #FFFFFF;
+
+  --theme-success: #00E676;
+  --theme-warning: #FFD54F;
+
+  --theme-text-primary: #E0E0E0;
+  --theme-text-secondary: #A0A0A0;
+  --theme-text-muted: #666666;
+}
+
+/* 3. LIGHT */
+.theme-light {
+  --theme-base-900: #F3F4F6;
+  --theme-base-800: #FFFFFF;
+  --theme-base-700: #E5E7EB;
+  --theme-base-600: #D1D5DB;
+  --theme-base-500: #9CA3AF;
+  --theme-base-400: #6B7280;
+
+  --theme-accent: #0056B3;
+  --theme-accent-light: #007BFF;
+  --theme-accent-dark: #004085;
+  --theme-accent-fg: #FFFFFF;
+
+  --theme-danger: #DC3545;
+  --theme-danger-dark: #C82333;
+  --theme-danger-fg: #FFFFFF;
+
+  --theme-success: #28A745;
+  --theme-warning: #FFC107;
+
+  --theme-text-primary: #111827;
+  --theme-text-secondary: #4B5563;
+  --theme-text-muted: #6B7280;
+}
+
+/* 4. PASTEL */
+.theme-pastel {
+  --theme-base-900: #FDFBF7;
+  --theme-base-800: #FFFFFF;
+  --theme-base-700: #EADBC8;
+  --theme-base-600: #DAC0A3;
+  --theme-base-500: #CBB092;
+  --theme-base-400: #BB9B7B;
+
+  --theme-accent: #82B9E6;
+  --theme-accent-light: #A2D2FF;
+  --theme-accent-dark: #6CA3D0;
+  --theme-accent-fg: #111827;
+
+  --theme-danger: #E69AB5;
+  --theme-danger-dark: #D488A3;
+  --theme-danger-fg: #111827;
+
+  --theme-success: #A3E4AD;
+  --theme-warning: #F0D5BE;
+
+  --theme-text-primary: #4A4A4A;
+  --theme-text-secondary: #6A6A6A;
+  --theme-text-muted: #8A8A8A;
+}
+
+/* ---------- Base Element Styles ---------- */
+body {
+  background: var(--color-base-900);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Custom Scrollbar (Webkit) ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3A3A3A;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background: rgba(0, 243, 255, 0.3);
+  color: #FFFFFF;
+}
+
+/* ---------- Utility Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(0, 243, 255, 0.3); }
+  50%      { box-shadow: 0 0 16px rgba(0, 243, 255, 0.6); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ---------- Float Animation (login background orbs) ---------- */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-float {
+  animation: float 8s ease-in-out infinite;
 }
+
+.animate-float-reverse {
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.animate-float-slow {
+  animation: float 12s ease-in-out infinite;
+}
+
+/* ---------- Toast Animations ---------- */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-toast-slide-in {
+  animation: toastSlideIn 300ms ease-out forwards;
+}
+
+.animate-toast-fade-out {
+  animation: toastFadeOut 300ms ease-in forwards;
+}
+
+/* ---------- Glassmorphism Utility ---------- */
+.glass {
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-strong {
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+/* ---------- 3D Flip Card Utilities ---------- */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
